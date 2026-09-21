@@ -1,0 +1,114 @@
+import { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { galleryCategories, type GalleryCategory } from "../data/content";
+import { useGallery } from "../data/useSiteData";
+import { Eyebrow, Reveal, RevealText } from "../components/Reveal";
+import Lightbox from "../components/Lightbox";
+import Expandable from "../components/Expandable";
+
+export default function Photography() {
+  const gallery = useGallery();
+  const [filter, setFilter] = useState<GalleryCategory | "All">("All");
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const filtered = useMemo(
+    () => (filter === "All" ? gallery : gallery.filter((g) => g.category === filter)),
+    [filter, gallery]
+  );
+
+  // Only show a filter pill for a category that actually has at least one image —
+  // keeps this in sync automatically as photos are added/removed via the admin panel.
+  const availableCategories = useMemo(
+    () => galleryCategories.filter((cat) => gallery.some((g) => g.category === cat)),
+    [gallery]
+  );
+
+  // If the selected category loses every image (e.g. reassigned via the admin panel),
+  // fall back to "All" rather than leaving an empty grid selected.
+  useEffect(() => {
+    if (filter !== "All" && !availableCategories.includes(filter)) setFilter("All");
+  }, [filter, availableCategories]);
+
+  return (
+    <section id="photography" className="relative bg-pearl px-4 py-6 sm:px-8 lg:px-16">
+      <div className="mx-auto max-w-7xl">
+        <Reveal>
+          <Eyebrow>Photography</Eyebrow>
+        </Reveal>
+        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-midnight sm:text-5xl">
+          <RevealText text="A gallery, not a grid." />
+        </h2>
+
+        <div className="mt-6 flex flex-wrap gap-2">
+          {(["All", ...availableCategories] as const).map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              data-cursor="FILTER"
+              className={`relative overflow-hidden rounded-full border px-4 py-2 font-body text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 ${
+                filter === cat
+                  ? "border-ocean text-midnight"
+                  : "border-midnight/15 text-midnight/70 hover:border-midnight/40 hover:text-midnight"
+              }`}
+            >
+              {filter === cat && (
+                <motion.span
+                  layoutId="photo-filter-pill"
+                  className="absolute inset-0 z-0 bg-ocean"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                />
+              )}
+              <span className="relative z-10">{cat}</span>
+            </button>
+          ))}
+        </div>
+
+        <Expandable fade="pearl">
+        <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
+          {filtered.map((img, i) => (
+            <motion.button
+              key={img.id}
+              layout
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: (i % 6) * 0.06 }}
+              onClick={() => setOpenIndex(gallery.findIndex((g) => g.id === img.id))}
+              data-cursor="VIEW"
+              className="group relative block w-full overflow-hidden rounded-md bg-midnight/5"
+            >
+              <img
+                src={img.img}
+                alt={img.title}
+                loading="lazy"
+                style={{ aspectRatio: `${img.w}/${img.h}` }}
+                className="h-auto w-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-noir/70 via-noir/0 to-noir/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <div className="translate-y-2 p-4 text-left transition-transform duration-500 ease-out group-hover:translate-y-0">
+                  <p className="font-display text-sm text-pearl">{img.title}</p>
+                  <p className="font-body text-[10px] uppercase tracking-[0.15em] text-ocean">
+                    {img.category}
+                  </p>
+                </div>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+        </Expandable>
+      </div>
+
+      <Lightbox
+        images={gallery}
+        index={openIndex}
+        onClose={() => setOpenIndex(null)}
+        onNav={(dir) =>
+          setOpenIndex((cur) => {
+            if (cur === null) return cur;
+            return (cur + dir + gallery.length) % gallery.length;
+          })
+        }
+      />
+    </section>
+  );
+}
