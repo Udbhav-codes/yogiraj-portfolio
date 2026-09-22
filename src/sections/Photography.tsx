@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { galleryCategories, type GalleryCategory } from "../data/content";
 import { useGallery } from "../data/useSiteData";
@@ -10,6 +10,31 @@ export default function Photography() {
   const gallery = useGallery();
   const [filter, setFilter] = useState<GalleryCategory | "All">("All");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [pointerOverId, setPointerOverId] = useState<string | null>(null);
+
+  // Mobile-only: track which single-column card is crossing screen-center as the
+  // user scrolls, so that one gets color instead of relying on hover (no pointer
+  // to hover with on a touch screen).
+  const [isMobile, setIsMobile] = useState(false);
+  const [centeredId, setCenteredId] = useState<string | null>(null);
+  const itemRefs = useRef(new Map<string, HTMLElement>());
+  const centeredIds = useRef(new Set<string>());
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  const setItemRef = useCallback(
+    (id: string) => (el: HTMLElement | null) => {
+      if (el) itemRefs.current.set(id, el);
+      else itemRefs.current.delete(id);
+    },
+    []
+  );
 
   const filtered = useMemo(
     () => (filter === "All" ? gallery : gallery.filter((g) => g.category === filter)),
@@ -28,6 +53,32 @@ export default function Photography() {
   useEffect(() => {
     if (filter !== "All" && !availableCategories.includes(filter)) setFilter("All");
   }, [filter, availableCategories]);
+
+  useEffect(() => {
+    centeredIds.current.clear();
+    setCenteredId(null);
+    if (!isMobile) return;
+
+    // Collapse the viewport to a 1px line at screen-center — whichever card
+    // crosses that line is the one currently "in view".
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).dataset.imgId;
+          if (!id) continue;
+          if (entry.isIntersecting) centeredIds.current.add(id);
+          else centeredIds.current.delete(id);
+        }
+        const last = [...centeredIds.current].pop();
+        setCenteredId(last ?? null);
+      },
+      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+    );
+    itemRefs.current.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [isMobile, filtered]);
+
+  const isColor = (id: string) => (isMobile ? centeredId === id : pointerOverId === id);
 
   return (
     <section id="photography" className="relative bg-pearl px-4 py-6 sm:px-8 lg:px-16">
@@ -68,12 +119,16 @@ export default function Photography() {
           {filtered.map((img, i) => (
             <motion.button
               key={img.id}
+              ref={setItemRef(img.id)}
+              data-img-id={img.id}
               layout
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: (i % 6) * 0.06 }}
               onClick={() => setOpenIndex(gallery.findIndex((g) => g.id === img.id))}
+              onPointerEnter={() => setPointerOverId(img.id)}
+              onPointerLeave={() => setPointerOverId((cur) => (cur === img.id ? null : cur))}
               data-cursor="VIEW"
               className="group relative block w-full overflow-hidden rounded-md bg-midnight/5"
             >
@@ -82,9 +137,15 @@ export default function Photography() {
                 alt={img.title}
                 loading="lazy"
                 style={{ aspectRatio: `${img.w}/${img.h}` }}
-                className="h-auto w-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-110"
+                className={`h-auto w-full object-cover transition-all duration-700 ease-out group-hover:scale-110 ${
+                  isColor(img.id) ? "grayscale-0" : "grayscale"
+                }`}
               />
-              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-noir/70 via-noir/0 to-noir/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+              <div
+                className={`absolute inset-0 flex items-end bg-gradient-to-t from-noir/70 via-noir/0 to-noir/0 transition-opacity duration-500 ${
+                  isColor(img.id) ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 <div className="translate-y-2 p-4 text-left transition-transform duration-500 ease-out group-hover:translate-y-0">
                   <p className="font-display text-sm text-pearl">{img.title}</p>
                   <p className="font-body text-[10px] uppercase tracking-[0.15em] text-ocean">

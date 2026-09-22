@@ -60,16 +60,6 @@ export default function Contact() {
                 </a>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.15em] text-pearl/50">Phone</p>
-                <a href={`tel:${profile.phone.replace(/\s/g, "")}`} className="text-lg text-pearl hover:text-ocean">
-                  {profile.phone}
-                </a>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.15em] text-pearl/50">Studio</p>
-                <p className="text-lg text-pearl">{profile.address}</p>
-              </div>
-              <div>
                 <p className="text-xs uppercase tracking-[0.15em] text-pearl/50">Hours</p>
                 <p className="text-lg text-pearl">Mon – Sat, 10:00 – 19:00 IST</p>
               </div>
@@ -119,16 +109,6 @@ export default function Contact() {
                 <Field label="Timeline" name="timeline" placeholder="e.g. Sept 2026" />
                 <div className="sm:col-span-2">
                   <Field label="Message" name="message" textarea required />
-                </div>
-                <div className="sm:col-span-2">
-                  <label className="mb-1 block text-xs uppercase tracking-[0.1em] text-pearl/50">
-                    Upload Brief (optional)
-                  </label>
-                  <input
-                    type="file"
-                    name="brief"
-                    className="block w-full text-sm text-pearl/60 file:mr-4 file:rounded-full file:border-0 file:bg-ocean file:px-4 file:py-2 file:text-xs file:font-medium file:uppercase file:tracking-wide file:text-midnight"
-                  />
                 </div>
                 <div className="sm:col-span-2">
                   <button

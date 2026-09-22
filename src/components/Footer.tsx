@@ -36,24 +36,6 @@ export default function Footer() {
             </a>
           ))}
         </nav>
-
-        <div className="max-w-xs">
-          <p className="font-body text-xs uppercase tracking-[0.15em] text-pearl/50">Newsletter</p>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="mt-2 flex items-center border-b border-pearl/20 focus-within:border-ocean"
-          >
-            <input
-              type="email"
-              required
-              placeholder="you@email.com"
-              className="w-full bg-transparent py-2 font-body text-sm text-pearl outline-none placeholder:text-pearl/30"
-            />
-            <button type="submit" className="font-body text-xs uppercase tracking-[0.1em] text-ocean">
-              Join
-            </button>
-          </form>
-        </div>
       </div>
 
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-pearl/10 pt-6 sm:flex-row">
