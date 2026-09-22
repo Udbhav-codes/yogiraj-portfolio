@@ -428,7 +428,6 @@ export const awards = [
 
 export const socials = {
   behance: "https://www.behance.net/yogirajsomavan",
-  instagram: "#",
-  linkedin: "#",
-  youtube: "#",
+  instagram: "https://www.instagram.com/__yogi._?stkn=YWs2dHozZHI5Njdu",
+  linkedin: "https://www.linkedin.com/in/yogiraj-somavanshi-443b371a5/",
 };

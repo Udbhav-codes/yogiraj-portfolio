@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { socials } from "../data/content";
 import { useProfile } from "../data/useSiteData";
 import { Eyebrow, Reveal, RevealText } from "../components/Reveal";
+import SocialIcon from "../components/SocialIcon";
 
 const PROJECT_TYPES = ["Photography", "Film", "Wedding", "Commercial", "Documentary", "Other"];
 const BUDGETS = ["< ₹25k", "₹25k – ₹75k", "₹75k – ₹2L", "₹2L+"];
@@ -72,17 +73,18 @@ export default function Contact() {
                 <p className="text-xs uppercase tracking-[0.15em] text-pearl/50">Hours</p>
                 <p className="text-lg text-pearl">Mon – Sat, 10:00 – 19:00 IST</p>
               </div>
-              <div className="flex gap-4 pt-2">
+              <div className="flex gap-3 pt-2">
                 {Object.entries(socials).map(([name, href]) => (
                   <a
                     key={name}
                     href={href}
                     target="_blank"
                     rel="noreferrer"
+                    aria-label={name}
                     data-cursor="OPEN"
-                    className="rounded-full border border-pearl/15 px-4 py-2 text-xs uppercase tracking-[0.1em] text-pearl/70 hover:border-ocean hover:text-ocean"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-pearl/15 text-pearl/70 hover:border-ocean hover:text-ocean"
                   >
-                    {name}
+                    <SocialIcon name={name as "behance" | "instagram" | "linkedin"} />
                   </a>
                 ))}
               </div>
