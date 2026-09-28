@@ -77,7 +77,7 @@ export default function Navbar() {
                 href={href}
                 data-cursor="VIEW"
                 className={`group relative font-body text-[11px] uppercase tracking-[0.12em] transition-colors ${
-                  active === href ? "text-ocean" : "text-current opacity-80 hover:opacity-100"
+                  active === href ? "text-ocean" : "text-white opacity-80 hover:opacity-100"
                 }`}
               >
                 {label}
@@ -95,7 +95,7 @@ export default function Navbar() {
           <a
             href="#contact"
             data-cursor="BOOK"
-            className="hidden rounded-full bg-ocean px-4 py-2 font-body text-[11px] font-medium uppercase tracking-[0.12em] text-midnight transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(201,162,75,0.5)] sm:inline-block"
+            className="hidden rounded-full bg-ocean px-4 py-2 font-body text-[11px] font-medium uppercase tracking-[0.12em] text-midnight transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] sm:inline-block"
           >
             Book a Shoot
           </a>

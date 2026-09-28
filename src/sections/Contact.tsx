@@ -115,7 +115,7 @@ export default function Contact() {
                     type="submit"
                     disabled={status === "submitting"}
                     data-cursor="SEND"
-                    className="w-full rounded-full bg-pearl py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-midnight transition-all duration-300 hover:scale-[1.02] hover:bg-ocean hover:shadow-[0_0_24px_rgba(201,162,75,0.4)] disabled:opacity-60 disabled:hover:scale-100 sm:w-auto sm:px-10"
+                    className="w-full rounded-full bg-pearl py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-midnight transition-all duration-300 hover:scale-[1.02] hover:bg-ocean hover:shadow-[0_0_24px_rgba(255,255,255,0.4)] disabled:opacity-60 disabled:hover:scale-100 sm:w-auto sm:px-10"
                   >
                     {status === "submitting" ? (
                       <span className="inline-flex items-center gap-2">

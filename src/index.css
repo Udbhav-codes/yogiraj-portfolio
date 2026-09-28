@@ -15,10 +15,10 @@
   --font-display: "Fraunces", "Georgia", serif;
   --font-body: "Inter", system-ui, sans-serif;
 
-  --color-midnight: #121212; /* primary brand / identity — near-black charcoal */
-  --color-pearl: #f5f1e6; /* primary background — warm parchment white */
-  --color-noir: #000000; /* max-contrast, sparing use */
-  --color-ocean: #c9a24b; /* accent / interactive — cinematic spotlight gold */
+  --color-midnight: #000000; /* primary brand / identity — black */
+  --color-pearl: #ffba08; /* secondary background/text — amber */
+  --color-noir: #ffffff; /* max-contrast, sparing use — white */
+  --color-ocean: #ffffff; /* accent / interactive — white */
 }
 
 :root {
@@ -134,7 +134,7 @@ body {
   background: var(--color-midnight);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(201, 162, 75, 0.5);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {
