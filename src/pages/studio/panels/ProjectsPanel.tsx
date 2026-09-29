@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { createProject, deleteProject, listProjects, updateProject, uploadMedia } from "../../../lib/studio/dataApi";
 import type { DbProject, NewProject } from "../../../lib/studio/types";
-import { ImageField, TextAreaField, TextField } from "../components/FormField";
-import { bySortOrder, moveItem } from "../reorder";
+import { ImageField, NumberField, TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem, setPriority } from "../reorder";
 
 const emptyForm: NewProject = {
   title: "",
@@ -22,6 +22,7 @@ export default function ProjectsPanel() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<NewProject>(emptyForm);
+  const [priority, setPriorityInput] = useState(1);
   const [galleryText, setGalleryText] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,12 +40,14 @@ export default function ProjectsPanel() {
 
   const startNew = () => {
     setForm({ ...emptyForm, sort_order: items.length });
+    setPriorityInput(items.length + 1);
     setGalleryText("");
     setEditingId("new");
   };
 
   const startEdit = (item: DbProject) => {
     setForm({ ...item });
+    setPriorityInput(items.findIndex((i) => i.id === item.id) + 1);
     setGalleryText(item.gallery_urls.join("\n"));
     setEditingId(item.id);
   };
@@ -65,8 +68,18 @@ export default function ProjectsPanel() {
         .filter(Boolean),
     };
     try {
-      if (editingId === "new") await createProject(payload);
-      else if (editingId) await updateProject(editingId, payload);
+      let saved: DbProject;
+      let list: DbProject[];
+      if (editingId === "new") {
+        saved = await createProject({ ...payload, sort_order: items.length });
+        list = [...items, saved];
+      } else if (editingId) {
+        saved = await updateProject(editingId, payload);
+        list = items.map((i) => (i.id === saved.id ? saved : i));
+      } else {
+        return;
+      }
+      await setPriority(list, saved.id, priority, updateProject);
       setEditingId(null);
       load();
     } catch (e) {
@@ -122,6 +135,14 @@ export default function ProjectsPanel() {
             <TextField label="Client" value={form.client ?? ""} onChange={(v) => setForm((f) => ({ ...f, client: v }))} />
             <TextField label="Category" value={form.category ?? ""} onChange={(v) => setForm((f) => ({ ...f, category: v }))} />
             <TextField label="Year" value={form.year ?? ""} onChange={(v) => setForm((f) => ({ ...f, year: v }))} />
+            <NumberField
+              label="Priority (position)"
+              value={priority}
+              onChange={setPriorityInput}
+              min={1}
+              max={editingId === "new" ? items.length + 1 : items.length}
+              hint={`1 = shown first, ${items.length + (editingId === "new" ? 1 : 0)} = shown last`}
+            />
           </div>
           <TextAreaField label="Challenge" value={form.challenge ?? ""} onChange={(v) => setForm((f) => ({ ...f, challenge: v }))} />
           <TextAreaField label="Process" value={form.process ?? ""} onChange={(v) => setForm((f) => ({ ...f, process: v }))} />

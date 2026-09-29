@@ -31,6 +31,37 @@ export function TextField({
   );
 }
 
+export function NumberField({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  hint,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  min?: number;
+  max?: number;
+  hint?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block font-body text-xs uppercase tracking-[0.1em] text-pearl/50">{label}</span>
+      <input
+        type="number"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value) || 1)}
+        className={baseInput}
+      />
+      {hint && <span className="mt-1 block font-body text-[11px] text-pearl/40">{hint}</span>}
+    </label>
+  );
+}
+
 export function TextAreaField({
   label,
   value,

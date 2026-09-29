@@ -6,8 +6,8 @@ import {
   updateEquipmentGroup,
 } from "../../../lib/studio/dataApi";
 import type { DbEquipmentGroup, NewEquipmentGroup } from "../../../lib/studio/types";
-import { TextAreaField, TextField } from "../components/FormField";
-import { bySortOrder, moveItem } from "../reorder";
+import { NumberField, TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem, setPriority } from "../reorder";
 
 const emptyForm: NewEquipmentGroup = { category: "", items: [], sort_order: 0 };
 
@@ -16,6 +16,7 @@ export default function EquipmentPanel() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<NewEquipmentGroup>(emptyForm);
+  const [priority, setPriorityInput] = useState(1);
   const [itemsText, setItemsText] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,12 +34,14 @@ export default function EquipmentPanel() {
 
   const startNew = () => {
     setForm({ ...emptyForm, sort_order: items.length });
+    setPriorityInput(items.length + 1);
     setItemsText("");
     setEditingId("new");
   };
 
   const startEdit = (item: DbEquipmentGroup) => {
     setForm({ ...item });
+    setPriorityInput(items.findIndex((i) => i.id === item.id) + 1);
     setItemsText(item.items.join("\n"));
     setEditingId(item.id);
   };
@@ -59,8 +62,18 @@ export default function EquipmentPanel() {
         .filter(Boolean),
     };
     try {
-      if (editingId === "new") await createEquipmentGroup(payload);
-      else if (editingId) await updateEquipmentGroup(editingId, payload);
+      let saved: DbEquipmentGroup;
+      let list: DbEquipmentGroup[];
+      if (editingId === "new") {
+        saved = await createEquipmentGroup({ ...payload, sort_order: items.length });
+        list = [...items, saved];
+      } else if (editingId) {
+        saved = await updateEquipmentGroup(editingId, payload);
+        list = items.map((i) => (i.id === saved.id ? saved : i));
+      } else {
+        return;
+      }
+      await setPriority(list, saved.id, priority, updateEquipmentGroup);
       setEditingId(null);
       load();
     } catch (e) {
@@ -113,6 +126,14 @@ export default function EquipmentPanel() {
             onChange={(v) => setForm((f) => ({ ...f, category: v }))}
           />
           <TextAreaField label="Items (one per line)" value={itemsText} onChange={setItemsText} rows={4} />
+          <NumberField
+            label="Priority (position)"
+            value={priority}
+            onChange={setPriorityInput}
+            min={1}
+            max={editingId === "new" ? items.length + 1 : items.length}
+            hint={`1 = shown first, ${items.length + (editingId === "new" ? 1 : 0)} = shown last`}
+          />
           <div className="flex gap-3 pt-2">
             <button
               onClick={save}

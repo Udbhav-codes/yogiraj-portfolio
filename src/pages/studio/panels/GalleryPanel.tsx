@@ -8,8 +8,8 @@ import {
 } from "../../../lib/studio/dataApi";
 import type { DbGalleryImage, NewGalleryImage } from "../../../lib/studio/types";
 import { galleryCategories } from "../../../data/content";
-import { ImageField, TextField } from "../components/FormField";
-import { bySortOrder, moveItem } from "../reorder";
+import { ImageField, NumberField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem, setPriority } from "../reorder";
 
 const emptyForm: NewGalleryImage = {
   title: "",
@@ -29,6 +29,7 @@ export default function GalleryPanel() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<NewGalleryImage>(emptyForm);
+  const [priority, setPriorityInput] = useState(1);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -45,11 +46,13 @@ export default function GalleryPanel() {
 
   const startNew = () => {
     setForm({ ...emptyForm, sort_order: items.length });
+    setPriorityInput(items.length + 1);
     setEditingId("new");
   };
 
   const startEdit = (item: DbGalleryImage) => {
     setForm({ ...item });
+    setPriorityInput(items.findIndex((i) => i.id === item.id) + 1);
     setEditingId(item.id);
   };
 
@@ -62,11 +65,18 @@ export default function GalleryPanel() {
     setSaving(true);
     setError(null);
     try {
+      let saved: DbGalleryImage;
+      let list: DbGalleryImage[];
       if (editingId === "new") {
-        await createGalleryImage(form);
+        saved = await createGalleryImage({ ...form, sort_order: items.length });
+        list = [...items, saved];
       } else if (editingId) {
-        await updateGalleryImage(editingId, form);
+        saved = await updateGalleryImage(editingId, form);
+        list = items.map((i) => (i.id === saved.id ? saved : i));
+      } else {
+        return;
       }
+      await setPriority(list, saved.id, priority, updateGalleryImage);
       setEditingId(null);
       load();
     } catch (e) {
@@ -134,7 +144,14 @@ export default function GalleryPanel() {
               </select>
             </label>
             <TextField label="Camera" value={form.camera ?? ""} onChange={(v) => setForm((f) => ({ ...f, camera: v }))} />
-            <TextField label="Lens" value={form.lens ?? ""} onChange={(v) => setForm((f) => ({ ...f, lens: v }))} />
+            <NumberField
+              label="Priority (position)"
+              value={priority}
+              onChange={setPriorityInput}
+              min={1}
+              max={editingId === "new" ? items.length + 1 : items.length}
+              hint={`1 = shown first, ${items.length + (editingId === "new" ? 1 : 0)} = shown last`}
+            />
             <TextField label="Location" value={form.location ?? ""} onChange={(v) => setForm((f) => ({ ...f, location: v }))} />
             <TextField label="Year" value={form.year ?? ""} onChange={(v) => setForm((f) => ({ ...f, year: v }))} />
           </div>

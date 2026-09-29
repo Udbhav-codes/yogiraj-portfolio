@@ -8,8 +8,8 @@ import {
   youtubePlaylistEmbedUrl,
   youtubeThumbnailUrl,
 } from "../../../lib/youtube";
-import { ImageField, TextAreaField, TextField } from "../components/FormField";
-import { bySortOrder, moveItem } from "../reorder";
+import { ImageField, NumberField, TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem, setPriority } from "../reorder";
 
 const emptyForm: NewFilm = {
   title: "",
@@ -31,6 +31,7 @@ export default function FilmsPanel() {
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<NewFilm>(emptyForm);
+  const [priority, setPriorityInput] = useState(1);
   const [videoSource, setVideoSource] = useState<VideoSource>("upload");
   const [youtubeInput, setYoutubeInput] = useState("");
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
@@ -51,6 +52,7 @@ export default function FilmsPanel() {
 
   const startNew = () => {
     setForm({ ...emptyForm, sort_order: items.length });
+    setPriorityInput(items.length + 1);
     setVideoSource("upload");
     setYoutubeInput("");
     setYoutubeError(null);
@@ -59,6 +61,7 @@ export default function FilmsPanel() {
 
   const startEdit = (item: DbFilm) => {
     setForm({ ...item });
+    setPriorityInput(items.findIndex((i) => i.id === item.id) + 1);
     const isYouTube = !!item.video_url && item.video_url.includes("youtube.com/embed/");
     setVideoSource(isYouTube ? "youtube" : "upload");
     setYoutubeInput(isYouTube ? item.video_url! : "");
@@ -121,8 +124,18 @@ export default function FilmsPanel() {
     setSaving(true);
     setError(null);
     try {
-      if (editingId === "new") await createFilm(form);
-      else if (editingId) await updateFilm(editingId, form);
+      let saved: DbFilm;
+      let list: DbFilm[];
+      if (editingId === "new") {
+        saved = await createFilm({ ...form, sort_order: items.length });
+        list = [...items, saved];
+      } else if (editingId) {
+        saved = await updateFilm(editingId, form);
+        list = items.map((i) => (i.id === saved.id ? saved : i));
+      } else {
+        return;
+      }
+      await setPriority(list, saved.id, priority, updateFilm);
       setEditingId(null);
       load();
     } catch (e) {
@@ -231,6 +244,14 @@ export default function FilmsPanel() {
             <TextField label="Duration" placeholder="01:20" value={form.duration ?? ""} onChange={(v) => setForm((f) => ({ ...f, duration: v }))} />
             <TextField label="Client" value={form.client ?? ""} onChange={(v) => setForm((f) => ({ ...f, client: v }))} />
             <TextField label="Award (optional)" value={form.award ?? ""} onChange={(v) => setForm((f) => ({ ...f, award: v }))} />
+            <NumberField
+              label="Priority (position)"
+              value={priority}
+              onChange={setPriorityInput}
+              min={1}
+              max={editingId === "new" ? items.length + 1 : items.length}
+              hint={`1 = shown first, ${items.length + (editingId === "new" ? 1 : 0)} = shown last`}
+            />
           </div>
           <TextAreaField label="Description" value={form.description ?? ""} onChange={(v) => setForm((f) => ({ ...f, description: v }))} />
           <div className="flex gap-3 pt-2">
