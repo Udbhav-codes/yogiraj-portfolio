@@ -6,6 +6,7 @@ const FADE_CLASS = {
   midnight: "from-midnight",
   pearl: "from-pearl",
   noir: "from-noir",
+  black: "from-black",
 } as const;
 
 /**

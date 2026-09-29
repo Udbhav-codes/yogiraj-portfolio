@@ -5,6 +5,7 @@ import { useGallery } from "../data/useSiteData";
 import { Eyebrow, Reveal, RevealText } from "../components/Reveal";
 import Lightbox from "../components/Lightbox";
 import Expandable from "../components/Expandable";
+import AnimatedGradient from "../components/AnimatedGradient";
 
 export default function Photography() {
   const gallery = useGallery();
@@ -81,12 +82,13 @@ export default function Photography() {
   const isColor = (id: string) => (isMobile ? centeredId === id : pointerOverId === id);
 
   return (
-    <section id="photography" className="relative bg-pearl px-4 py-6 sm:px-8 lg:px-16">
-      <div className="mx-auto max-w-7xl">
+    <section id="photography" className="relative overflow-hidden px-4 py-6 sm:px-8 lg:px-16">
+      <AnimatedGradient />
+      <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
           <Eyebrow>Photography</Eyebrow>
         </Reveal>
-        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-midnight sm:text-5xl">
+        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-white sm:text-5xl">
           <RevealText text="A gallery, not a grid." />
         </h2>
 
@@ -99,7 +101,7 @@ export default function Photography() {
               className={`relative overflow-hidden rounded-full border px-4 py-2 font-body text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 ${
                 filter === cat
                   ? "border-ocean text-midnight"
-                  : "border-midnight/15 text-midnight/70 hover:border-midnight/40 hover:text-midnight"
+                  : "border-white/20 text-white/70 hover:border-white/50 hover:text-white"
               }`}
             >
               {filter === cat && (
@@ -114,7 +116,7 @@ export default function Photography() {
           ))}
         </div>
 
-        <Expandable fade="pearl">
+        <Expandable fade="black">
         <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
           {filtered.map((img, i) => (
             <motion.button
@@ -130,7 +132,7 @@ export default function Photography() {
               onPointerEnter={() => setPointerOverId(img.id)}
               onPointerLeave={() => setPointerOverId((cur) => (cur === img.id ? null : cur))}
               data-cursor="VIEW"
-              className="group relative block w-full overflow-hidden rounded-md bg-midnight/5"
+              className="group relative block w-full overflow-hidden rounded-md bg-black/20"
             >
               <img
                 src={img.img}
