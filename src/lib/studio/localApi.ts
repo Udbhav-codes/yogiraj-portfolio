@@ -10,12 +10,14 @@ import type {
   DbEquipmentGroup,
   DbFilm,
   DbGalleryImage,
+  DbHeroImage,
   DbProfile,
   DbProject,
   DbService,
   NewEquipmentGroup,
   NewFilm,
   NewGalleryImage,
+  NewHeroImage,
   NewProject,
   NewService,
 } from "./types";
@@ -31,6 +33,7 @@ import type {
 
 const KEYS = {
   gallery: "studio_local_gallery",
+  hero: "studio_local_hero",
   films: "studio_local_films",
   projects: "studio_local_projects",
   services: "studio_local_services",
@@ -72,6 +75,16 @@ function seedGallery(): DbGalleryImage[] {
     year: g.meta.year,
     width: g.w,
     height: g.h,
+    sort_order: i,
+  }));
+}
+
+const HERO_SEED_NUMBERS = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62, 67];
+
+function seedHero(): DbHeroImage[] {
+  return HERO_SEED_NUMBERS.map((n, i) => ({
+    id: crypto.randomUUID(),
+    image_url: `/photos/cocktail-food/cocktail-food-${String(n).padStart(2, "0")}.jpg`,
     sort_order: i,
   }));
 }
@@ -208,6 +221,13 @@ export const createGalleryImage = (row: NewGalleryImage) => insertRow(KEYS.galle
 export const updateGalleryImage = (id: string, row: Partial<NewGalleryImage>) =>
   updateRowLocal<DbGalleryImage>(KEYS.gallery, seedGallery, id, row);
 export const deleteGalleryImage = (id: string) => deleteRowLocal(KEYS.gallery, seedGallery, id);
+
+// ── Hero images ───────────────────────────────────────────────────────────
+export const listHeroImages = () => listRows(KEYS.hero, seedHero);
+export const createHeroImage = (row: NewHeroImage) => insertRow(KEYS.hero, seedHero, row);
+export const updateHeroImage = (id: string, row: Partial<NewHeroImage>) =>
+  updateRowLocal<DbHeroImage>(KEYS.hero, seedHero, id, row);
+export const deleteHeroImage = (id: string) => deleteRowLocal(KEYS.hero, seedHero, id);
 
 // ── Films ─────────────────────────────────────────────────────────────────
 export const listFilms = () => listRows(KEYS.films, seedFilms);

@@ -5,6 +5,7 @@ import type {
   DbEquipmentGroup,
   DbFilm,
   DbGalleryImage,
+  DbHeroImage,
   DbProfile,
   DbProject,
   DbService,
@@ -13,6 +14,7 @@ import {
   equipment as staticEquipment,
   films as staticFilms,
   gallery as staticGallery,
+  heroImages as staticHeroImages,
   profile as staticProfile,
   projects as staticProjects,
   services as staticServices,
@@ -90,6 +92,15 @@ export function useGallery(): GalleryImage[] {
     }),
     staticGallery,
     localStore.listGalleryImages
+  );
+}
+
+export function useHeroImages(): string[] {
+  return useLiveTable<DbHeroImage, string>(
+    "hero_images",
+    (row) => row.image_url,
+    staticHeroImages,
+    localStore.listHeroImages
   );
 }
 

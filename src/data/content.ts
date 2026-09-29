@@ -193,6 +193,12 @@ export const gallery: GalleryImage[] = [
   { id: "cf71", category: "Commercial", title: "Cocktail & Food Study 71", img: "/photos/cocktail-food/cocktail-food-71.jpg", w: 1920, h: 2400, meta: { camera: "Sony A7 IV", lens: "—", location: "Pune", year: "2025" } },
 ];
 
+// Photos featured in the scrolling hero gallery — a curated subset of
+// `gallery`, editable from the studio's Hero Section panel.
+export const heroImages: string[] = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62, 67].map(
+  (n) => `/photos/cocktail-food/cocktail-food-${String(n).padStart(2, "0")}.jpg`
+);
+
 export interface Film {
   id: string;
   title: string;

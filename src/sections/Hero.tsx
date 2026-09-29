@@ -1,5 +1,7 @@
 import UnfurlingGallery from "../components/ui/3d-parallax-unfurling-gallery";
+import { useHeroImages } from "../data/useSiteData";
 
 export default function Hero() {
-  return <UnfurlingGallery id="home" />;
+  const images = useHeroImages();
+  return <UnfurlingGallery id="home" images={images} />;
 }

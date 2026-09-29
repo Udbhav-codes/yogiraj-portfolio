@@ -66,6 +66,14 @@ export interface DbEquipmentGroup {
 
 export type NewEquipmentGroup = Omit<DbEquipmentGroup, "id">;
 
+export interface DbHeroImage {
+  id: string;
+  image_url: string;
+  sort_order: number;
+}
+
+export type NewHeroImage = Omit<DbHeroImage, "id">;
+
 export interface DbProfile {
   id: number;
   name: string;

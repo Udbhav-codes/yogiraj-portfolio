@@ -3,12 +3,14 @@ import type {
   DbEquipmentGroup,
   DbFilm,
   DbGalleryImage,
+  DbHeroImage,
   DbProfile,
   DbProject,
   DbService,
   NewEquipmentGroup,
   NewFilm,
   NewGalleryImage,
+  NewHeroImage,
   NewProject,
   NewService,
 } from "./types";
@@ -51,6 +53,13 @@ export const createGalleryImage = (row: NewGalleryImage) =>
 export const updateGalleryImage = (id: string, row: Partial<NewGalleryImage>) =>
   updateRow<NewGalleryImage, DbGalleryImage>("gallery_images", id, row);
 export const deleteGalleryImage = (id: string) => deleteRow("gallery_images", id);
+
+// ── Hero images ───────────────────────────────────────────────────────────
+export const listHeroImages = () => listTable<DbHeroImage>("hero_images");
+export const createHeroImage = (row: NewHeroImage) => insertRow<NewHeroImage, DbHeroImage>("hero_images", row);
+export const updateHeroImage = (id: string, row: Partial<NewHeroImage>) =>
+  updateRow<NewHeroImage, DbHeroImage>("hero_images", id, row);
+export const deleteHeroImage = (id: string) => deleteRow("hero_images", id);
 
 // ── Films ─────────────────────────────────────────────────────────────────
 export const listFilms = () => listTable<DbFilm>("films");

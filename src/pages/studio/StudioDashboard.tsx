@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import HeroPanel from "./panels/HeroPanel";
 import GalleryPanel from "./panels/GalleryPanel";
 import FilmsPanel from "./panels/FilmsPanel";
 import ProjectsPanel from "./panels/ProjectsPanel";
@@ -8,6 +9,7 @@ import EquipmentPanel from "./panels/EquipmentPanel";
 import ProfilePanel from "./panels/ProfilePanel";
 
 const TABS = [
+  { key: "hero", label: "Hero Section", panel: HeroPanel },
   { key: "gallery", label: "Gallery", panel: GalleryPanel },
   { key: "films", label: "Films", panel: FilmsPanel },
   { key: "projects", label: "Projects", panel: ProjectsPanel },
