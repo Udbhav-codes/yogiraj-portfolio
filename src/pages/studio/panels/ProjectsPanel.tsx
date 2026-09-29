@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createProject, deleteProject, listProjects, updateProject, uploadMedia } from "../../../lib/studio/dataApi";
 import type { DbProject, NewProject } from "../../../lib/studio/types";
 import { ImageField, TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem } from "../reorder";
 
 const emptyForm: NewProject = {
   title: "",
@@ -24,10 +25,14 @@ export default function ProjectsPanel() {
   const [galleryText, setGalleryText] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = () => {
     setLoading(true);
-    listProjects().then(setItems).catch((e) => setError(e.message)).finally(() => setLoading(false));
+    listProjects()
+      .then((rows) => setItems(bySortOrder(rows)))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
   };
 
   useEffect(load, []);
@@ -75,6 +80,16 @@ export default function ProjectsPanel() {
     if (!confirm("Delete this project?")) return;
     await deleteProject(id);
     load();
+  };
+
+  const move = async (index: number, direction: -1 | 1) => {
+    setBusyId(items[index].id);
+    try {
+      await moveItem(items, index, direction, updateProject);
+      load();
+    } finally {
+      setBusyId(null);
+    }
   };
 
   if (loading) return <p className="font-body text-sm text-pearl/50">Loading…</p>;
@@ -133,13 +148,28 @@ export default function ProjectsPanel() {
       )}
 
       <div className="mt-6 space-y-2">
-        {items.map((p) => (
+        {items.map((p, i) => (
           <div key={p.id} className="flex items-center gap-4 rounded-md border border-pearl/10 p-3">
+            <span className="font-body text-xs text-pearl/40">#{i + 1}</span>
             <img src={p.cover_url} alt={p.title} className="h-14 w-24 flex-shrink-0 rounded object-cover" />
             <div className="min-w-0 flex-1">
               <p className="truncate font-body text-sm text-pearl">{p.title}</p>
               <p className="font-body text-xs text-pearl/50">{p.client}</p>
             </div>
+            <button
+              onClick={() => move(i, -1)}
+              disabled={i === 0 || busyId === p.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Up
+            </button>
+            <button
+              onClick={() => move(i, 1)}
+              disabled={i === items.length - 1 || busyId === p.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Down
+            </button>
             <button onClick={() => startEdit(p)} className="font-body text-xs text-pearl/70 underline">
               Edit
             </button>

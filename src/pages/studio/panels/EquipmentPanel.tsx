@@ -7,6 +7,7 @@ import {
 } from "../../../lib/studio/dataApi";
 import type { DbEquipmentGroup, NewEquipmentGroup } from "../../../lib/studio/types";
 import { TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem } from "../reorder";
 
 const emptyForm: NewEquipmentGroup = { category: "", items: [], sort_order: 0 };
 
@@ -18,10 +19,14 @@ export default function EquipmentPanel() {
   const [itemsText, setItemsText] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = () => {
     setLoading(true);
-    listEquipmentGroups().then(setItems).catch((e) => setError(e.message)).finally(() => setLoading(false));
+    listEquipmentGroups()
+      .then((rows) => setItems(bySortOrder(rows)))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
   };
 
   useEffect(load, []);
@@ -71,6 +76,16 @@ export default function EquipmentPanel() {
     load();
   };
 
+  const move = async (index: number, direction: -1 | 1) => {
+    setBusyId(items[index].id);
+    try {
+      await moveItem(items, index, direction, updateEquipmentGroup);
+      load();
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   if (loading) return <p className="font-body text-sm text-pearl/50">Loading…</p>;
 
   return (
@@ -114,12 +129,27 @@ export default function EquipmentPanel() {
       )}
 
       <div className="mt-6 space-y-2">
-        {items.map((g) => (
+        {items.map((g, i) => (
           <div key={g.id} className="flex items-center gap-4 rounded-md border border-pearl/10 p-3">
+            <span className="font-body text-xs text-pearl/40">#{i + 1}</span>
             <div className="min-w-0 flex-1">
               <p className="font-body text-sm text-pearl">{g.category}</p>
               <p className="truncate font-body text-xs text-pearl/50">{g.items.join(", ")}</p>
             </div>
+            <button
+              onClick={() => move(i, -1)}
+              disabled={i === 0 || busyId === g.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Up
+            </button>
+            <button
+              onClick={() => move(i, 1)}
+              disabled={i === items.length - 1 || busyId === g.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Down
+            </button>
             <button onClick={() => startEdit(g)} className="font-body text-xs text-pearl/70 underline">
               Edit
             </button>

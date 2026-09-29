@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import HeroPanel from "./panels/HeroPanel";
 import GalleryPanel from "./panels/GalleryPanel";
 import FilmsPanel from "./panels/FilmsPanel";
+import ReelsPanel from "./panels/ReelsPanel";
 import ProjectsPanel from "./panels/ProjectsPanel";
 import ServicesPanel from "./panels/ServicesPanel";
 import EquipmentPanel from "./panels/EquipmentPanel";
@@ -12,6 +13,7 @@ const TABS = [
   { key: "hero", label: "Hero Section", panel: HeroPanel },
   { key: "gallery", label: "Gallery", panel: GalleryPanel },
   { key: "films", label: "Films", panel: FilmsPanel },
+  { key: "reels", label: "Reels", panel: ReelsPanel },
   { key: "projects", label: "Projects", panel: ProjectsPanel },
   { key: "services", label: "Services", panel: ServicesPanel },
   { key: "equipment", label: "BTS Kit", panel: EquipmentPanel },

@@ -9,6 +9,7 @@ import {
 import type { DbGalleryImage, NewGalleryImage } from "../../../lib/studio/types";
 import { galleryCategories } from "../../../data/content";
 import { ImageField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem } from "../reorder";
 
 const emptyForm: NewGalleryImage = {
   title: "",
@@ -30,11 +31,12 @@ export default function GalleryPanel() {
   const [form, setForm] = useState<NewGalleryImage>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = () => {
     setLoading(true);
     listGalleryImages()
-      .then(setItems)
+      .then((rows) => setItems(bySortOrder(rows)))
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   };
@@ -78,6 +80,16 @@ export default function GalleryPanel() {
     if (!confirm("Delete this image?")) return;
     await deleteGalleryImage(id);
     load();
+  };
+
+  const move = async (index: number, direction: -1 | 1) => {
+    setBusyId(items[index].id);
+    try {
+      await moveItem(items, index, direction, updateGalleryImage);
+      load();
+    } finally {
+      setBusyId(null);
+    }
   };
 
   if (loading) return <p className="font-body text-sm text-pearl/50">Loading…</p>;
@@ -142,13 +154,29 @@ export default function GalleryPanel() {
       )}
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {items.map((img) => (
+        {items.map((img, i) => (
           <div key={img.id} className="group relative overflow-hidden rounded-md border border-pearl/10">
             <img src={img.image_url} alt={img.title} className="aspect-[4/5] w-full object-cover" />
             <div className="absolute inset-0 flex flex-col justify-between bg-midnight/0 p-2 opacity-0 transition-opacity group-hover:bg-midnight/70 group-hover:opacity-100">
-              <p className="font-body text-[10px] uppercase tracking-wide text-ocean">{img.category}</p>
+              <p className="font-body text-[10px] uppercase tracking-wide text-ocean">
+                #{i + 1} · {img.category}
+              </p>
               <p className="font-body text-xs text-pearl">{img.title}</p>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => move(i, -1)}
+                  disabled={i === 0 || busyId === img.id}
+                  className="text-[11px] text-pearl underline disabled:opacity-30"
+                >
+                  Up
+                </button>
+                <button
+                  onClick={() => move(i, 1)}
+                  disabled={i === items.length - 1 || busyId === img.id}
+                  className="text-[11px] text-pearl underline disabled:opacity-30"
+                >
+                  Down
+                </button>
                 <button onClick={() => startEdit(img)} className="text-[11px] text-pearl underline">
                   Edit
                 </button>

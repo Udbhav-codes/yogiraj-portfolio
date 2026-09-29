@@ -13,12 +13,14 @@ import type {
   DbHeroImage,
   DbProfile,
   DbProject,
+  DbReel,
   DbService,
   NewEquipmentGroup,
   NewFilm,
   NewGalleryImage,
   NewHeroImage,
   NewProject,
+  NewReel,
   NewService,
 } from "./types";
 
@@ -34,6 +36,7 @@ import type {
 const KEYS = {
   gallery: "studio_local_gallery",
   hero: "studio_local_hero",
+  reels: "studio_local_reels",
   films: "studio_local_films",
   projects: "studio_local_projects",
   services: "studio_local_services",
@@ -87,6 +90,21 @@ function seedHero(): DbHeroImage[] {
     image_url: `/photos/cocktail-food/cocktail-food-${String(n).padStart(2, "0")}.jpg`,
     sort_order: i,
   }));
+}
+
+const REEL_SEED_URLS = [
+  "https://www.instagram.com/reel/DLoZRCgPMVR/",
+  "https://www.instagram.com/reel/DLq--CmRGsK/",
+  "https://www.instagram.com/reel/DLtkJUzKUnC/",
+  "https://www.instagram.com/reel/DLwH7LGqZMb/",
+  "https://www.instagram.com/reel/DLytArjKcmP/",
+  "https://www.instagram.com/reel/DL1RcnGIk6P/",
+  "https://www.instagram.com/reel/DL33t_xNtc4/",
+  "https://www.instagram.com/reel/DcNfmrptcDn/",
+];
+
+function seedReels(): DbReel[] {
+  return REEL_SEED_URLS.map((url, i) => ({ id: crypto.randomUUID(), url, sort_order: i }));
 }
 
 function seedFilms(): DbFilm[] {
@@ -228,6 +246,13 @@ export const createHeroImage = (row: NewHeroImage) => insertRow(KEYS.hero, seedH
 export const updateHeroImage = (id: string, row: Partial<NewHeroImage>) =>
   updateRowLocal<DbHeroImage>(KEYS.hero, seedHero, id, row);
 export const deleteHeroImage = (id: string) => deleteRowLocal(KEYS.hero, seedHero, id);
+
+// ── Reels ─────────────────────────────────────────────────────────────────
+export const listReels = () => listRows(KEYS.reels, seedReels);
+export const createReel = (row: NewReel) => insertRow(KEYS.reels, seedReels, row);
+export const updateReel = (id: string, row: Partial<NewReel>) =>
+  updateRowLocal<DbReel>(KEYS.reels, seedReels, id, row);
+export const deleteReel = (id: string) => deleteRowLocal(KEYS.reels, seedReels, id);
 
 // ── Films ─────────────────────────────────────────────────────────────────
 export const listFilms = () => listRows(KEYS.films, seedFilms);

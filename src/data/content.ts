@@ -199,6 +199,17 @@ export const heroImages: string[] = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 5
   (n) => `/photos/cocktail-food/cocktail-food-${String(n).padStart(2, "0")}.jpg`
 );
 
+export const reelUrls: string[] = [
+  "https://www.instagram.com/reel/DLoZRCgPMVR/",
+  "https://www.instagram.com/reel/DLq--CmRGsK/",
+  "https://www.instagram.com/reel/DLtkJUzKUnC/",
+  "https://www.instagram.com/reel/DLwH7LGqZMb/",
+  "https://www.instagram.com/reel/DLytArjKcmP/",
+  "https://www.instagram.com/reel/DL1RcnGIk6P/",
+  "https://www.instagram.com/reel/DL33t_xNtc4/",
+  "https://www.instagram.com/reel/DcNfmrptcDn/",
+];
+
 export interface Film {
   id: string;
   title: string;

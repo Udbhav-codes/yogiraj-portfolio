@@ -74,6 +74,14 @@ export interface DbHeroImage {
 
 export type NewHeroImage = Omit<DbHeroImage, "id">;
 
+export interface DbReel {
+  id: string;
+  url: string;
+  sort_order: number;
+}
+
+export type NewReel = Omit<DbReel, "id">;
+
 export interface DbProfile {
   id: number;
   name: string;

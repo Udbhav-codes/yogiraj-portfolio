@@ -19,6 +19,11 @@ export const createHeroImage = impl.createHeroImage;
 export const updateHeroImage = impl.updateHeroImage;
 export const deleteHeroImage = impl.deleteHeroImage;
 
+export const listReels = impl.listReels;
+export const createReel = impl.createReel;
+export const updateReel = impl.updateReel;
+export const deleteReel = impl.deleteReel;
+
 export const listFilms = impl.listFilms;
 export const createFilm = impl.createFilm;
 export const updateFilm = impl.updateFilm;

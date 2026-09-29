@@ -9,6 +9,7 @@ import {
   youtubeThumbnailUrl,
 } from "../../../lib/youtube";
 import { ImageField, TextAreaField, TextField } from "../components/FormField";
+import { bySortOrder, moveItem } from "../reorder";
 
 const emptyForm: NewFilm = {
   title: "",
@@ -36,10 +37,14 @@ export default function FilmsPanel() {
   const [uploadingVideo, setUploadingVideo] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const load = () => {
     setLoading(true);
-    listFilms().then(setItems).catch((e) => setError(e.message)).finally(() => setLoading(false));
+    listFilms()
+      .then((rows) => setItems(bySortOrder(rows)))
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
   };
 
   useEffect(load, []);
@@ -131,6 +136,16 @@ export default function FilmsPanel() {
     if (!confirm("Delete this film?")) return;
     await deleteFilm(id);
     load();
+  };
+
+  const move = async (index: number, direction: -1 | 1) => {
+    setBusyId(items[index].id);
+    try {
+      await moveItem(items, index, direction, updateFilm);
+      load();
+    } finally {
+      setBusyId(null);
+    }
   };
 
   if (loading) return <p className="font-body text-sm text-pearl/50">Loading…</p>;
@@ -234,8 +249,9 @@ export default function FilmsPanel() {
       )}
 
       <div className="mt-6 space-y-2">
-        {items.map((film) => (
+        {items.map((film, i) => (
           <div key={film.id} className="flex items-center gap-4 rounded-md border border-pearl/10 p-3">
+            <span className="font-body text-xs text-pearl/40">#{i + 1}</span>
             <img src={film.thumb_url} alt={film.title} className="h-14 w-24 flex-shrink-0 rounded object-cover" />
             <div className="min-w-0 flex-1">
               <p className="truncate font-body text-sm text-pearl">{film.title}</p>
@@ -243,6 +259,20 @@ export default function FilmsPanel() {
                 {film.category} · {film.year}
               </p>
             </div>
+            <button
+              onClick={() => move(i, -1)}
+              disabled={i === 0 || busyId === film.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Up
+            </button>
+            <button
+              onClick={() => move(i, 1)}
+              disabled={i === items.length - 1 || busyId === film.id}
+              className="font-body text-xs text-pearl/70 underline disabled:opacity-30"
+            >
+              Down
+            </button>
             <button onClick={() => startEdit(film)} className="font-body text-xs text-pearl/70 underline">
               Edit
             </button>

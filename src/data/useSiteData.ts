@@ -8,6 +8,7 @@ import type {
   DbHeroImage,
   DbProfile,
   DbProject,
+  DbReel,
   DbService,
 } from "../lib/studio/types";
 import {
@@ -17,6 +18,7 @@ import {
   heroImages as staticHeroImages,
   profile as staticProfile,
   projects as staticProjects,
+  reelUrls as staticReelUrls,
   services as staticServices,
   type Film,
   type GalleryCategory,
@@ -102,6 +104,10 @@ export function useHeroImages(): string[] {
     staticHeroImages,
     localStore.listHeroImages
   );
+}
+
+export function useReels(): string[] {
+  return useLiveTable<DbReel, string>("reels", (row) => row.url, staticReelUrls, localStore.listReels);
 }
 
 export function useFilms(): Film[] {

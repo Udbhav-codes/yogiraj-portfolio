@@ -2,19 +2,10 @@ import { Eyebrow, Reveal, RevealText } from "../components/Reveal";
 import InstagramEmbed from "../components/InstagramEmbed";
 import Expandable from "../components/Expandable";
 import AnimatedGradient from "../components/AnimatedGradient";
-
-const REEL_URLS = [
-  "https://www.instagram.com/reel/DLoZRCgPMVR/",
-  "https://www.instagram.com/reel/DLq--CmRGsK/",
-  "https://www.instagram.com/reel/DLtkJUzKUnC/",
-  "https://www.instagram.com/reel/DLwH7LGqZMb/",
-  "https://www.instagram.com/reel/DLytArjKcmP/",
-  "https://www.instagram.com/reel/DL1RcnGIk6P/",
-  "https://www.instagram.com/reel/DL33t_xNtc4/",
-  "https://www.instagram.com/reel/DcNfmrptcDn/",
-];
+import { useReels } from "../data/useSiteData";
 
 export default function Reels() {
+  const reelUrls = useReels();
   return (
     <section id="reels" className="relative overflow-hidden px-4 py-6 sm:px-8 lg:px-16">
       <AnimatedGradient variant={1} />
@@ -28,7 +19,7 @@ export default function Reels() {
 
         <Expandable fade="yellow">
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {REEL_URLS.map((url, i) => (
+          {reelUrls.map((url, i) => (
             <Reveal key={url} delay={(i % 4) * 0.06}>
               <InstagramEmbed url={url} />
             </Reveal>
