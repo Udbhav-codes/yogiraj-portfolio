@@ -142,7 +142,7 @@ export default function Photography() {
                 }`}
               />
               <div
-                className={`absolute inset-0 flex items-end bg-gradient-to-t from-noir/70 via-noir/0 to-noir/0 transition-opacity duration-500 ${
+                className={`absolute inset-0 flex items-end bg-gradient-to-t from-black/80 via-black/0 to-black/0 transition-opacity duration-500 ${
                   isColor(img.id) ? "opacity-100" : "opacity-0"
                 }`}
               >
