@@ -11,16 +11,16 @@ export default function Projects() {
   const [active, setActive] = useState<Project | null>(null);
   return (
     <section id="projects" className="relative overflow-hidden px-4 py-6 sm:px-8 lg:px-16">
-      <AnimatedGradient />
+      <AnimatedGradient variant={1} />
       <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
-          <Eyebrow>Featured Projects</Eyebrow>
+          <Eyebrow accentClassName="text-[#E62727]">Featured Projects</Eyebrow>
         </Reveal>
-        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-white sm:text-5xl">
+        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-midnight sm:text-5xl">
           <RevealText text="Case studies, not just credits." />
         </h2>
 
-        <Expandable fade="black">
+        <Expandable fade="yellow">
         <div className="mt-6 flex flex-col gap-24">
           {projects.map((p, i) => (
             <Reveal key={p.id} className="w-full" x={i % 2 === 1 ? 40 : -40} y={20}>
@@ -40,25 +40,25 @@ export default function Projects() {
                   />
                 </div>
                 <div className="w-full lg:w-2/5">
-                  <p className="font-body text-[11px] uppercase tracking-[0.2em] text-ocean">
+                  <p className="font-body text-[11px] uppercase tracking-[0.2em] text-[#E62727]">
                     {p.category} · {p.year}
                   </p>
-                  <h3 className="font-display mt-3 text-2xl text-white transition-colors duration-300 group-hover:text-ocean sm:text-3xl">
+                  <h3 className="font-display mt-3 text-2xl text-midnight transition-colors duration-300 group-hover:text-[#E62727] sm:text-3xl">
                     {p.title}
                   </h3>
-                  <p className="mt-1 font-body text-sm text-white/70">{p.client}</p>
+                  <p className="mt-1 font-body text-sm text-midnight/60">{p.client}</p>
 
-                  <div className="mt-6 space-y-4 font-body text-sm text-white/80">
+                  <div className="mt-6 space-y-4 font-body text-sm text-midnight/70">
                     <div>
-                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-white/60">Challenge</p>
+                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-midnight/50">Challenge</p>
                       <p>{p.challenge}</p>
                     </div>
                     <div>
-                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-white/60">Process</p>
+                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-midnight/50">Process</p>
                       <p>{p.process}</p>
                     </div>
                     <div>
-                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-white/60">Result</p>
+                      <p className="mb-1 text-xs uppercase tracking-[0.15em] text-midnight/50">Result</p>
                       <p>{p.result}</p>
                     </div>
                   </div>
@@ -75,14 +75,14 @@ export default function Projects() {
                         />
                       ))}
                       {p.gallery.length > 4 && (
-                        <span className="flex h-16 w-16 items-center justify-center rounded-md bg-white/10 font-body text-xs text-white/60 sm:h-20 sm:w-20">
+                        <span className="flex h-16 w-16 items-center justify-center rounded-md bg-midnight/5 font-body text-xs text-midnight/50 sm:h-20 sm:w-20">
                           +{p.gallery.length - 4}
                         </span>
                       )}
                     </div>
                   )}
 
-                  <p className="mt-6 font-body text-xs font-medium uppercase tracking-[0.15em] text-white underline decoration-ocean/60 underline-offset-4">
+                  <p className="mt-6 font-body text-xs font-medium uppercase tracking-[0.15em] text-midnight underline decoration-[#E62727]/60 underline-offset-4">
                     View Full Case Study →
                   </p>
                 </div>

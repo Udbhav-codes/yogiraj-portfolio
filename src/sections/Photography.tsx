@@ -83,12 +83,12 @@ export default function Photography() {
 
   return (
     <section id="photography" className="relative overflow-hidden px-4 py-6 sm:px-8 lg:px-16">
-      <AnimatedGradient />
+      <AnimatedGradient variant={0} />
       <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
-          <Eyebrow>Photography</Eyebrow>
+          <Eyebrow accentClassName="text-[#E62727]">Photography</Eyebrow>
         </Reveal>
-        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-white sm:text-5xl">
+        <h2 className="my-0 font-display max-w-2xl text-4xl font-light leading-tight text-midnight sm:text-5xl">
           <RevealText text="A gallery, not a grid." />
         </h2>
 
@@ -100,14 +100,14 @@ export default function Photography() {
               data-cursor="FILTER"
               className={`relative overflow-hidden rounded-full border px-4 py-2 font-body text-[11px] uppercase tracking-[0.12em] transition-colors duration-300 ${
                 filter === cat
-                  ? "border-ocean text-midnight"
-                  : "border-white/20 text-white/70 hover:border-white/50 hover:text-white"
+                  ? "border-[#E62727] text-white"
+                  : "border-midnight/15 text-midnight/70 hover:border-midnight/40 hover:text-midnight"
               }`}
             >
               {filter === cat && (
                 <motion.span
                   layoutId="photo-filter-pill"
-                  className="absolute inset-0 z-0 bg-ocean"
+                  className="absolute inset-0 z-0 bg-[#E62727]"
                   transition={{ type: "spring", stiffness: 400, damping: 32 }}
                 />
               )}
@@ -116,7 +116,7 @@ export default function Photography() {
           ))}
         </div>
 
-        <Expandable fade="black">
+        <Expandable fade="yellow">
         <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
           {filtered.map((img, i) => (
             <motion.button
@@ -132,7 +132,7 @@ export default function Photography() {
               onPointerEnter={() => setPointerOverId(img.id)}
               onPointerLeave={() => setPointerOverId((cur) => (cur === img.id ? null : cur))}
               data-cursor="VIEW"
-              className="group relative block w-full overflow-hidden rounded-md bg-black/20"
+              className="group relative block w-full overflow-hidden rounded-md bg-midnight/5"
             >
               <img
                 src={img.img}

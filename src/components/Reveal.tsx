@@ -56,10 +56,12 @@ export function RevealText({
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
+export function Eyebrow({ children, accentClassName }: { children: ReactNode; accentClassName?: string }) {
+  const accent = accentClassName ?? "text-ocean";
+  const bar = accentClassName ? accentClassName.replace("text-", "bg-") : "bg-ocean";
   return (
-    <span className="mb-0 inline-flex items-center gap-3 font-body text-xs uppercase tracking-[0.3em] text-ocean">
-      <span className="h-px w-8 bg-ocean" />
+    <span className={`mb-0 inline-flex items-center gap-3 font-body text-xs uppercase tracking-[0.3em] ${accent}`}>
+      <span className={`h-px w-8 ${bar}`} />
       {children}
     </span>
   );

@@ -7,6 +7,7 @@ const FADE_CLASS = {
   pearl: "from-pearl",
   noir: "from-noir",
   black: "from-black",
+  yellow: "from-[#FFDE00]",
 } as const;
 
 /**
@@ -54,7 +55,7 @@ export default function Expandable({
         {children}
       </div>
 
-      {overflowing && !expanded && (
+      {overflowing && !expanded && fade !== "yellow" && (
         <div
           className={`pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t ${FADE_CLASS[fade]} to-transparent`}
         />
