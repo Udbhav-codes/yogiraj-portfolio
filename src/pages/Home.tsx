@@ -7,19 +7,38 @@ import BehindTheScenes from "../sections/BehindTheScenes";
 import About from "../sections/About";
 import Services from "../sections/Services";
 import Contact from "../sections/Contact";
+import SectionErrorBoundary from "../components/SectionErrorBoundary";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
-      <Photography />
-      <Films />
-      <Reels />
-      <Projects />
-      <BehindTheScenes />
-      <About />
-      <Services />
-      <Contact />
+      <SectionErrorBoundary>
+        <Hero />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Photography />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Films />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Reels />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Projects />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <BehindTheScenes />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <About />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Services />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <Contact />
+      </SectionErrorBoundary>
     </main>
   );
 }

@@ -298,6 +298,17 @@ export function ShaderBackground({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // Any failure here (blocklisted GPU, WebGL disabled, driver quirks) must
+    // stay contained to this one background — an uncaught error in an effect,
+    // with no error boundary above it, would otherwise crash the whole page.
+    try {
+      return setup();
+    } catch (err) {
+      console.warn("[ShaderBackground] WebGL setup failed, skipping this background:", err);
+      return undefined;
+    }
+
+    function setup() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const pendingRelease = pendingContextReleases.get(canvas);
@@ -515,6 +526,7 @@ export function ShaderBackground({ className }: { className?: string }) {
       }, 0);
       pendingContextReleases.set(canvas, releaseTimer);
     };
+    }
   }, []);
 
   return (
