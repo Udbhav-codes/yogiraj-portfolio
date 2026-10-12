@@ -48,7 +48,15 @@ export default function Footer() {
             . All rights reserved.
           </p>
           <p className="mt-1 font-body text-xs text-pearl/40">
-            Designed and Developed by <span className="font-semibold text-pearl/80">Udbhav Singh</span>
+            Designed and Developed by{" "}
+            <a
+              href="https://www.linkedin.com/in/udbhav-singh-ngc?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-pearl/80 transition-colors duration-300 hover:text-ocean"
+            >
+              Udbhav Singh
+            </a>
           </p>
         </div>
         <button
