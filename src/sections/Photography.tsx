@@ -117,12 +117,22 @@ export default function Photography() {
         </div>
 
         <Expandable fade="yellow">
-        <div className="mt-6 columns-1 gap-4 sm:columns-2 lg:columns-3 [&>*]:mb-4">
-          {filtered.map((img, i) => (
+        <div className="mt-6 flex flex-col gap-4 [--row-h:calc((100vw_-_4rem)_/_2.4)] sm:flex-row sm:flex-wrap lg:[--row-h:min(calc((100vw_-_8rem)_/_3.6),340px)]">
+          {filtered.map((img, i) => {
+            // Justified rows: items fill left-to-right in priority order, and each row is
+            // scaled so its photos share one height (flex-grow/basis proportional to aspect).
+            const ar = Math.min(Math.max(img.w / img.h, 0.5), 3);
+            return (
             <motion.button
               key={img.id}
               ref={setItemRef(img.id)}
               data-img-id={img.id}
+              style={
+                {
+                  "--g": Math.round(ar * 100),
+                  "--b": `calc(${ar} * var(--row-h))`,
+                } as React.CSSProperties
+              }
               layout
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -132,7 +142,7 @@ export default function Photography() {
               onPointerEnter={() => setPointerOverId(img.id)}
               onPointerLeave={() => setPointerOverId((cur) => (cur === img.id ? null : cur))}
               data-cursor="VIEW"
-              className="group relative block w-full overflow-hidden rounded-md bg-midnight/5"
+              className="group relative block w-full min-w-0 overflow-hidden rounded-md bg-midnight/5 sm:w-auto sm:[flex:var(--g)_1_var(--b)]"
             >
               <img
                 src={img.img}
@@ -156,7 +166,10 @@ export default function Photography() {
                 </div>
               </div>
             </motion.button>
-          ))}
+            );
+          })}
+          {/* Absorbs spare width so a short last row keeps its natural size instead of stretching. */}
+          <div aria-hidden="true" className="hidden sm:block sm:[flex:10000_1_0]" />
         </div>
         </Expandable>
       </div>
