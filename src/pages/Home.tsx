@@ -1,4 +1,5 @@
 import Hero from "../sections/Hero";
+import BrandMarquee from "../sections/BrandMarquee";
 import Photography from "../sections/Photography";
 import Films from "../sections/Films";
 import Reels from "../sections/Reels";
@@ -14,6 +15,9 @@ export default function Home() {
     <main>
       <SectionErrorBoundary>
         <Hero />
+      </SectionErrorBoundary>
+      <SectionErrorBoundary>
+        <BrandMarquee />
       </SectionErrorBoundary>
       <SectionErrorBoundary>
         <Photography />
