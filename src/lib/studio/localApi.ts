@@ -119,6 +119,7 @@ function seedFilms(): DbFilm[] {
     description: f.description,
     thumb_url: f.thumb,
     video_url: f.videoUrl ?? null,
+    episodes: (f.episodes ?? []).map((e) => ({ title: e.title, video_url: e.videoUrl })),
     sort_order: i,
   }));
 }

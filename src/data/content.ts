@@ -210,6 +210,12 @@ export const reelUrls: string[] = [
   "https://www.instagram.com/reel/DcNfmrptcDn/",
 ];
 
+export interface FilmEpisodeItem {
+  title: string;
+  /** YouTube embed URL or an uploaded video file URL. */
+  videoUrl: string;
+}
+
 export interface Film {
   id: string;
   title: string;
@@ -222,6 +228,8 @@ export interface Film {
   award?: string;
   /** YouTube embed URL (https://www.youtube.com/embed/...) or an uploaded video file URL. */
   videoUrl?: string;
+  /** Series episodes, in order. When present they replace `videoUrl` for playback. */
+  episodes?: FilmEpisodeItem[];
 }
 
 export const films: Film[] = [

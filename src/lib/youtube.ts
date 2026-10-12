@@ -28,3 +28,10 @@ export function youtubePlaylistEmbedUrl(playlistId: string): string {
 export function isYouTubeEmbedUrl(url: string): boolean {
   return url.includes("youtube.com/embed/");
 }
+
+/** Thumbnail for a YouTube embed/watch URL, or null for uploaded files and non-YouTube links. */
+export function thumbnailForVideoUrl(url?: string | null): string | null {
+  if (!url) return null;
+  const id = extractYouTubeId(url);
+  return id ? youtubeThumbnailUrl(id) : null;
+}

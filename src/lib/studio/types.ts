@@ -14,6 +14,11 @@ export interface DbGalleryImage {
 
 export type NewGalleryImage = Omit<DbGalleryImage, "id">;
 
+export interface FilmEpisode {
+  title: string;
+  video_url: string;
+}
+
 export interface DbFilm {
   id: string;
   title: string;
@@ -25,6 +30,7 @@ export interface DbFilm {
   description: string | null;
   thumb_url: string;
   video_url: string | null;
+  episodes: FilmEpisode[];
   sort_order: number;
 }
 

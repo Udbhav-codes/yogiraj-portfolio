@@ -124,6 +124,7 @@ export function useFilms(): Film[] {
       description: row.description ?? "",
       award: row.award ?? undefined,
       videoUrl: row.video_url ?? undefined,
+      episodes: (row.episodes ?? []).map((e) => ({ title: e.title, videoUrl: e.video_url })),
     }),
     staticFilms,
     localStore.listFilms
