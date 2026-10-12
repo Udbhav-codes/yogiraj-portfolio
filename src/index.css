@@ -118,17 +118,6 @@ body {
   animation: dot-bounce 1.1s ease-in-out infinite;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 55s linear infinite;
-}
-.marquee:hover .animate-marquee {
-  animation-play-state: paused;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
