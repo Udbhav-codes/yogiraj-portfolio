@@ -39,13 +39,18 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-pearl/10 pt-6 sm:flex-row">
-        <p className="font-body text-xs text-pearl/40">
-          © {new Date().getFullYear()}{" "}
-          <Link to="/studio" className="cursor-default no-underline">
-            {profile.name}
-          </Link>
-          . All rights reserved.
-        </p>
+        <div className="text-center sm:text-left">
+          <p className="font-body text-xs text-pearl/40">
+            © {new Date().getFullYear()}{" "}
+            <Link to="/studio" className="cursor-default no-underline">
+              {profile.name}
+            </Link>
+            . All rights reserved.
+          </p>
+          <p className="mt-1 font-body text-xs text-pearl/40">
+            Designed and Developed by <span className="font-semibold text-pearl/80">Udbhav Singh</span>
+          </p>
+        </div>
         <button
           onClick={scrollTop}
           data-cursor="TOP"
