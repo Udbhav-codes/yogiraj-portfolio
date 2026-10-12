@@ -7,13 +7,14 @@ const BRANDS = [
   { slug: "juju", name: "JUJU", bg: "#FFFFFF" },
   { slug: "nataraj", name: "Nataraj", bg: "#E01F26" },
   { slug: "gather", name: "Gather for Good", bg: "#FFFFFF" },
-  { slug: "3soul", name: "3 Soul", bg: "#24375C" },
+  { slug: "3soul", name: "3 Soul", bg: "#24385D" },
   { slug: "kfc", name: "KFC", bg: "#FFFFFF" },
   { slug: "izi-pizi-street", name: "Izi Pizi Street", bg: "#B4E4FD" },
   { slug: "tata-green-batteries", name: "Tata Green Batteries", bg: "#FFFFFF" },
-  { slug: "inorbit", name: "inOrbit", bg: "#292B64" },
+  { slug: "inorbit", name: "Inorbit", bg: "#FFFFFF" },
   { slug: "cobbler-and-crew", name: "Cobbler & Crew", bg: "#FFFFFF" },
   { slug: "amul", name: "Amul", bg: "#FFFFFF" },
+  { slug: "w-mark", name: "Brand logo", bg: "#FFFFFF" },
   { slug: "kotak-mahindra-bank", name: "Kotak Mahindra Bank", bg: "#FFFFFF" },
   { slug: "bajaj", name: "Bajaj", bg: "#FFFFFF" },
   { slug: "elephant-and-co", name: "Elephant & Co.", bg: "#FFFFFF" },
@@ -46,10 +47,10 @@ function Track({ hidden }: { hidden?: boolean }) {
 
 export default function BrandMarquee() {
   return (
-    <section aria-label="Selected clients" className="relative bg-[#050505] px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
+    <section aria-label="Brands I have worked with" className="relative bg-[#050505] px-4 py-12 sm:px-8 sm:py-16 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <Reveal>
-          <Eyebrow>Selected clients</Eyebrow>
+          <Eyebrow>Brands I have worked with</Eyebrow>
         </Reveal>
       </div>
 
