@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Film } from "../data/content";
 import { useFilms } from "../data/useSiteData";
@@ -25,6 +25,14 @@ export default function Films() {
   const [episode, setEpisode] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!active) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [active]);
 
   const open = (film: Film) => {
     setEpisode(0);

@@ -239,9 +239,15 @@ export const films: Film[] = [
     category: "Web Series",
     duration: "5 Episodes",
     year: "2026",
-    thumb: "https://img.youtube.com/vi/S1nPfP8YMkk/hqdefault.jpg",
+    thumb: "https://img.youtube.com/vi/7P7c5D1qAEQ/hqdefault.jpg",
     description: "A 5-episode Marathi mini web series — cinematography, direction and edit.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLB3YE7sU2vNk",
+    episodes: [
+      { title: "Episode 1", videoUrl: "https://www.youtube.com/embed/7P7c5D1qAEQ" },
+      { title: "Episode 2", videoUrl: "https://www.youtube.com/embed/j9wp7o1rB_s" },
+      { title: "Episode 3", videoUrl: "https://www.youtube.com/embed/vj0QEw-KEcA" },
+      { title: "Episode 4", videoUrl: "https://www.youtube.com/embed/kweNBnkuchM" },
+      { title: "Episode 5", videoUrl: "https://www.youtube.com/embed/S1nPfP8YMkk" },
+    ],
   },
   {
     id: "f2",
