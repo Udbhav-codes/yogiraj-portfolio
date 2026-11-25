@@ -257,7 +257,13 @@ export const films: Film[] = [
     year: "2025",
     thumb: "https://img.youtube.com/vi/MmLeylAPgiM/hqdefault.jpg",
     description: "A collection of independently shot and edited short films.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLBbZhk9liQDg",
+    episodes: [
+      { title: "Nandi (Classical Music Video)", videoUrl: "https://www.youtube.com/embed/MmLeylAPgiM" },
+      { title: "BHAMA (A dance short film)", videoUrl: "https://www.youtube.com/embed/6PEG32MVIew" },
+      { title: "Kasturi Marathi Short Film", videoUrl: "https://www.youtube.com/embed/oB9Xol6IzAc" },
+      { title: "NIROP Marathi Short Film", videoUrl: "https://www.youtube.com/embed/MzbTJxhsinQ" },
+      { title: "Kathak Adi Kathak Documentary", videoUrl: "https://www.youtube.com/embed/PU0J0sXemmI" },
+    ],
   },
   {
     id: "f3",
@@ -268,7 +274,11 @@ export const films: Film[] = [
     client: "KFC India",
     thumb: "https://img.youtube.com/vi/Vkp6SFsJm9E/hqdefault.jpg",
     description: "Fast-paced commercial spots produced with Wit & Chai Media.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLFtmPTgk__eA",
+    episodes: [
+      { title: "KFC Instagram AD Zinger Burger", videoUrl: "https://www.youtube.com/embed/fuahhl5zSdM" },
+      { title: "KFC Instagram Ad Chicken Strips", videoUrl: "https://www.youtube.com/embed/Vkp6SFsJm9E" },
+      { title: "KFC Instagram AD Carrebian Chicken burger", videoUrl: "https://www.youtube.com/embed/RUd7nOMWv6M" },
+    ],
   },
   {
     id: "f4",
@@ -278,7 +288,10 @@ export const films: Film[] = [
     year: "2025",
     thumb: "https://img.youtube.com/vi/N4L7KcswXsA/hqdefault.jpg",
     description: "Product-led jewelry advertising films — lighting, macro camera work and edit.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLLXV3De6hRkI",
+    episodes: [
+      { title: "Jewelry Ad 1", videoUrl: "https://www.youtube.com/embed/N4L7KcswXsA" },
+      { title: "Jewelry Ad 2", videoUrl: "https://www.youtube.com/embed/VBtPovtKhGM" },
+    ],
   },
   {
     id: "f5",
@@ -289,7 +302,16 @@ export const films: Film[] = [
     client: "Cobbler & Crew",
     thumb: "https://img.youtube.com/vi/BHlYtOAKQ5w/hqdefault.jpg",
     description: "Social-first reel series: concept, shoot and edit, end to end.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLc3Y_7qRHwJg",
+    episodes: [
+      { title: "Cobbler Bar Cocktail Menu reel", videoUrl: "https://www.youtube.com/embed/kTKWxQAkn8w" },
+      { title: "Hugger Cocktail Prep Reel", videoUrl: "https://www.youtube.com/embed/6wfZbCz3wZg" },
+      { title: "Oddly good prep reel", videoUrl: "https://www.youtube.com/embed/DUly3Lv4W9E" },
+      { title: "Cobbler Mutton Taco Reel", videoUrl: "https://www.youtube.com/embed/vnmGd7rp9j0" },
+      { title: "Cobbler Sourdough pizza delivery reel", videoUrl: "https://www.youtube.com/embed/q3zbgqmvbR0" },
+      { title: "Cobbler Women's Day Event Reel", videoUrl: "https://www.youtube.com/embed/oJ5dQwsMa34" },
+      { title: "Cobbler Bar Night Ad", videoUrl: "https://www.youtube.com/embed/ecF84jWSwfk" },
+      { title: "Bar Takeover Reel for Cobbler & Crew", videoUrl: "https://www.youtube.com/embed/BHlYtOAKQ5w" },
+    ],
   },
   {
     id: "f6",
@@ -300,7 +322,10 @@ export const films: Film[] = [
     client: "Gather",
     thumb: "https://img.youtube.com/vi/w_FEMWDLGt8/hqdefault.jpg",
     description: "Food and ambience-led reel series for a hospitality brand.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLR1AdWbayoFA",
+    episodes: [
+      { title: "Gather Summer Menu Reel 1", videoUrl: "https://www.youtube.com/embed/w_FEMWDLGt8" },
+      { title: "Gather Summer Menu Reel 2", videoUrl: "https://www.youtube.com/embed/lcgzTMFKE8w" },
+    ],
   },
   {
     id: "f7",
@@ -311,7 +336,10 @@ export const films: Film[] = [
     client: "Juju",
     thumb: "https://img.youtube.com/vi/8CghmT-ESwA/hqdefault.jpg",
     description: "Vibrant social content for a Mexican restaurant brand.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLOHIrNopK1Bs",
+    episodes: [
+      { title: "Juju Mexican Bar Kitchen Video 1", videoUrl: "https://www.youtube.com/embed/8CghmT-ESwA" },
+      { title: "Juju Mexican Bar Kitchen video 2", videoUrl: "https://www.youtube.com/embed/OKtNu6DISSY" },
+    ],
   },
   {
     id: "f8",
@@ -322,7 +350,10 @@ export const films: Film[] = [
     client: "Izipizi",
     thumb: "https://img.youtube.com/vi/-C1RwOVXUJQ/hqdefault.jpg",
     description: "Social content series for an Asian dining concept.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLc47sRhCoglM",
+    episodes: [
+      { title: "Izipizi Asian Restaurant Gajok Video", videoUrl: "https://www.youtube.com/embed/-C1RwOVXUJQ" },
+      { title: "Izipizi Naruto Reel", videoUrl: "https://www.youtube.com/embed/aeXNllJeK-4" },
+    ],
   },
   {
     id: "f9",
@@ -333,7 +364,12 @@ export const films: Film[] = [
     client: "ECO",
     thumb: "https://img.youtube.com/vi/shlttZExlfE/hqdefault.jpg",
     description: "Corporate finance video series — clean, explainer-led visual storytelling.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLb7P6hq1m770",
+    episodes: [
+      { title: "Kotak Finance Video 1", videoUrl: "https://www.youtube.com/embed/GUnu4Lxu14s" },
+      { title: "Kotak Finance Video 2", videoUrl: "https://www.youtube.com/embed/shlttZExlfE" },
+      { title: "Bajaj Finance Video 1", videoUrl: "https://www.youtube.com/embed/sqswIfTvBXo" },
+      { title: "Bajaj Finance Video 2", videoUrl: "https://www.youtube.com/embed/FW1IMcMstIQ" },
+    ],
   },
   {
     id: "f10",
@@ -343,7 +379,11 @@ export const films: Film[] = [
     year: "2025",
     thumb: "https://img.youtube.com/vi/ND1Uv_6McWY/hqdefault.jpg",
     description: "Industrial and architectural visuals paired with lifestyle sequences.",
-    videoUrl: "https://www.youtube.com/embed/videoseries?list=PLBF551zHPhUI",
+    episodes: [
+      { title: "Sample Flat Showcase Video", videoUrl: "https://www.youtube.com/embed/ND1Uv_6McWY" },
+      { title: "Electromech 250T Crane Explainer Video", videoUrl: "https://www.youtube.com/embed/0S1dyGS9-Jo" },
+      { title: "Brochure Shoot Video Final", videoUrl: "https://www.youtube.com/embed/QErFSHhA80Q" },
+    ],
   },
   {
     id: "f11",

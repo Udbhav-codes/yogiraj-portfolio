@@ -51,16 +51,35 @@ function useLiveTable<TRow, TShape>(
     };
 
     if (isSupabaseConfigured && supabase) {
-      supabase
-        .from(table)
-        .select("*")
-        .order("sort_order", { ascending: true })
-        .then(({ data: rows, error }) => {
-          if (cancelled || error || !rows || rows.length === 0) return;
-          setData((rows as TRow[]).map(mapRow));
-        });
+      const client = supabase;
+      const loadRemote = () => {
+        client
+          .from(table)
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .then(({ data: rows, error }) => {
+            if (cancelled || error || !rows || rows.length === 0) return;
+            setData((rows as TRow[]).map(mapRow));
+          });
+      };
+
+      loadRemote();
+
+      // Pick up changes made in the Studio (new films, episodes, ...) without
+      // a redeploy or a manual reload: refresh whenever the tab is shown again
+      // and every couple of minutes while it stays open.
+      const onVisible = () => {
+        if (document.visibilityState === "visible") loadRemote();
+      };
+      document.addEventListener("visibilitychange", onVisible);
+      window.addEventListener("focus", loadRemote);
+      const timer = window.setInterval(loadRemote, 120_000);
+
       return () => {
         cancelled = true;
+        document.removeEventListener("visibilitychange", onVisible);
+        window.removeEventListener("focus", loadRemote);
+        window.clearInterval(timer);
       };
     }
 

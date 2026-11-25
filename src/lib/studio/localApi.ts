@@ -53,7 +53,7 @@ const KEYS = {
  * because localStorage survives refreshes. Stop bumping this once real
  * content is being managed through /studio for keeps.
  */
-const SEED_VERSION = "2026-09-18.2";
+const SEED_VERSION = "2026-11-25.1";
 const VERSION_KEY = "studio_local_seed_version";
 
 function ensureFreshSeed() {
